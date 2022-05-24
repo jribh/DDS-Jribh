@@ -427,7 +427,7 @@ function init() {
     loadedGLTF.position.y = -5.1;
 }
 
-loadGLTFOcta("assets/full 3d baked.gltf");
+loadGLTFOcta("full 3d baked.gltf");
 
 
 // //load sec gltf
