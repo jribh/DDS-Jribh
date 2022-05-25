@@ -87,43 +87,80 @@ body {
     z-index: 10;
 
     font-family: 'Oswald', sans-serif;
-    font-weight: 500;
-    font-size: 5vw;
-  }
-
-  #ixd-div {
-    /* change this height for page height */
-    top:230vh;
-    height:85vh;
-    position: absolute;
-
-    padding:14vh 0 0 10vw;
-    margin-top:100px 0 0 0;
-    width:20vw;
-    z-index: 10;
-
-    font-family: 'Oswald', sans-serif;
-    font-weight: 500;
+    font-weight: 700;
     font-size: 4vw;
   }
 
-  #id-div {
-    /* change this height for page height */
-    top:340vh;
-    height:85vh;
-    position: absolute;
-
-    padding:14vh 0 0 10vw;
-    margin-top:100px 0 0 0;
-    width:20vw;
-    z-index: 10;
-
-    font-family: 'Oswald', sans-serif;
-    font-weight: 500;
-    font-size: 4vw;
+  a {
+    color:#0050ab;
+    text-decoration: none;
+    z-index: 100;
   }
 
-  /* loader */
+/* -------------------department divs-------------------- */
+
+
+
+  .department-divs {
+   
+    top : 14vh;
+    left : 10vw;
+    /* height:100vh; */
+    position: absolute;
+
+    /* padding:14vh 0 0 10vw; */
+    /* margin-top:100px 0 0 0; */
+    width:17vw;
+    z-index: 100;
+
+    user-select: none;
+
+  }
+
+  .department-divs h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 3.2vw;
+
+    pointer-events: none;
+
+    line-height: 110%;
+    color:#22223b;
+
+  }
+
+  .department-divs h2 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1.05vw;
+
+    line-height: 130%;
+
+    color:#545473fd;
+
+    pointer-events: none;
+  }
+
+  .department-divs h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1vw;
+
+    line-height: 130%;
+
+    margin-top:2em;
+  }
+
+
+  /* --------------------------------individual departments----------------------------- */
+
+#animation-div, #communication-div, #industrial-div, #interaction-div, #mobility-div, #bdes-div {
+  opacity:0;
+  transition:opacity 0.3s;
+}
+
+
+/* loader */
 
   .loader {
     height: 5rem;
@@ -248,4 +285,8 @@ body {
     opacity: 0;
     transition: 1s all ease-out;
   }
+
+
+  /* department divs */
+
   

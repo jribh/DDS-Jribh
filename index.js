@@ -5,6 +5,16 @@ let arrowContainer = document.querySelector(".arrow-container");
 // let progressElement = document.querySelector("#progress-element");
 let loader = document.querySelector(".loader");
 
+let animationDiv = document.querySelector("#animation-div");
+let communicationDiv = document.querySelector("#communication-div");
+let industrialDiv = document.querySelector("#industrial-div");
+let interactionDiv = document.querySelector("#interaction-div");
+let mobilityDiv = document.querySelector("#mobility-div");
+let bdesDiv = document.querySelector("#bdes-div");
+
+let lastPage = document.querySelector("#last-page")
+
+
 
 var pi = Math.PI;
 
@@ -434,10 +444,13 @@ function loadGLTFOcta(GLTFName) {
 
 function removeLoading() {
     if(loaded < 1) {
+
         loader.style.opacity = "1";
     
     } else {
+
         loader.style.opacity = "0";
+        
     }
 }
 
@@ -953,8 +966,7 @@ $(renderer.domElement).on('mousedown', function(e) {
     };
 
     if(!cameraAbort) {
-        camera.position.set(32 + e.clientY/10000, 0.5 + e.clientX/20000, e.clientY/10000);
-
+        camera.position.set(32 + e.clientY/8000, 0.5 + e.clientX/16000, e.clientY/8000);
     }
 
 
@@ -1066,45 +1078,138 @@ window.addEventListener('scroll', () => {
 
         arrowContainer.style.opacity = '1';
 
-        cameraAbort = false;
+        cameraAbort = true;
         // isDragging = false;
 
     }
 
-    if(window.scrollY>50 && window.scrollY<=800) { // set less than value to anything till when the model scrolls
+    if(window.scrollY > 50 && window.scrollY <= window.innerHeight) { // set less than value to anything till when the model scrolls
 
         // camera.position.set(32, 1, 0);
         cameraAbort = true;
-        abort=false;
-
-        SPEED = -0.0015;
-
-        camera.position.set(32-window.scrollY/80, 1 + window.scrollY/1600, 0)
-
-    }
-
-    if(window.scrollY>800) {
+        abort=true;
 
         SPEED = 0;
-        GLTFOcta.rotation.y = window.scrollY/600 - 2.5;
 
-        abort=true;
-        
+        camera.position.set( 32 - 9 * window.scrollY/(window.innerHeight), 1 + window.scrollY/(window.innerHeight*2), 0)
+
+        GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
+
+
     }
+
+
+
+
+
+    // department divs appearing and fading
+
+    let initialAnimation = 120; //these are in vh
+    let differenceWithinDiv = 45;
+    let differenceAfterDiv = 35;
+
+    //animation
+
+    animationDiv.style.top = `${initialAnimation + differenceWithinDiv/2}vh`;
+
+    if(window.scrollY > window.innerHeight * (initialAnimation/100) && window.scrollY < window.innerHeight * (initialAnimation/100 + differenceWithinDiv/100)) { // change the values to change where div fades. Current h diff is 0.55, div difference is 0.25
+
+        animationDiv.style.opacity = '1';
+        
+    } else {
+        animationDiv.style.opacity = '0.2';
+    }
+
+    //communication
+
+    communicationDiv.style.top = `${initialAnimation + 3/2*differenceWithinDiv + differenceAfterDiv}vh`;
+
+    if(window.scrollY > window.innerHeight * (initialAnimation/100 + differenceWithinDiv/100 + differenceAfterDiv/100) && window.scrollY < window.innerHeight * (initialAnimation/100 + 2 * differenceWithinDiv/100 + differenceAfterDiv/100)) { 
+
+        communicationDiv.style.opacity = '1';
+        
+    } else {
+        communicationDiv.style.opacity = '0.2';
+    }
+
+    //industrial
+
+    industrialDiv.style.top = `${initialAnimation + 5/2*differenceWithinDiv + 2*differenceAfterDiv}vh`;
+
+    if(window.scrollY > window.innerHeight * (initialAnimation/100 + 2 * differenceWithinDiv/100 + 2 * differenceAfterDiv/100) && window.scrollY < window.innerHeight * (initialAnimation/100 + 3 * differenceWithinDiv/100 + 2 * differenceAfterDiv/100)) { // change the values to change where div fades
+
+        industrialDiv.style.opacity = '1';
+        
+    } else {
+        industrialDiv.style.opacity = '0.2';
+    }
+
+    //interaction
+
+    interactionDiv.style.top = `${initialAnimation + 7/2*differenceWithinDiv + 3*differenceAfterDiv}vh`;
+
+    if(window.scrollY > window.innerHeight * (initialAnimation/100 + 3 * differenceWithinDiv/100 + 3 * differenceAfterDiv/100) && window.scrollY < window.innerHeight * (initialAnimation/100 + 4 * differenceWithinDiv/100 + 3 * differenceAfterDiv/100)) { // change the values to change where div fades
+
+        interactionDiv.style.opacity = '1';
+        
+    } else {
+        interactionDiv.style.opacity = '0.2';
+    }
+
+    //mobility
+
+    mobilityDiv.style.top = `${initialAnimation + 9/2*differenceWithinDiv + 4*differenceAfterDiv}vh`;
+
+    if(window.scrollY > window.innerHeight * (initialAnimation/100 + 4 * differenceWithinDiv/100 + 4 * differenceAfterDiv/100) && window.scrollY < window.innerHeight * (initialAnimation/100 + 5 * differenceWithinDiv/100 + 4 * differenceAfterDiv/100)) { // change the values to change where div fades
+
+        mobilityDiv.style.opacity = '1';
+        
+    } else {
+        mobilityDiv.style.opacity = '0.2';
+    }
+
+    //bdes
+
+    bdesDiv.style.top = `${initialAnimation + 11/2*differenceWithinDiv + 5*differenceAfterDiv}vh`;
+
+    if(window.scrollY > window.innerHeight * (initialAnimation/100 + 5 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100) && window.scrollY < window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) { // change the values to change where div fades
+
+        bdesDiv.style.opacity = '1';
+        
+    } else {
+        bdesDiv.style.opacity = '0.2';
+    }
+
+
+
+    // fade model at end
+
+    if(window.scrollY > window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) { // change the values to change where div fades
+
+        // camera.position.set(23, 1.5, 0);
+
+        camera.position.set(23 + 60 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1), 1.5, 10 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1));
+
+        abort=false;
+        SPEED = -0.004;
+
+    } 
+
+    // set model rotation for branches here
+
+    if(window.scrollY > window.innerHeight && window.scrollY <= window.innerHeight * (initialAnimation/100 + 5 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) {
+
+        SPEED = 0;
+        GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
+    
+        abort=true;
+            
+    }
+
+    lastPage.style.top = `${initialAnimation + 17/2*differenceWithinDiv + 5*differenceAfterDiv}vh`;
         
 })
 
-
-// gltf progress bar
-// var manager = new THREE.LoadingManager();
-
-// manager.onProgress = function ( url, itemsLoaded, itemsTotal ) {
-//     progressElement.style.width = (itemsLoaded / itemsTotal * 100) + '%';
-// };
-
-// var Loaders = {
-//     Texture: new THREE.TextureLoader(manager)
-// }
 
 
 //render
