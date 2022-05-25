@@ -135,7 +135,7 @@ body {
     background: transparent;
     animation: loading 1s linear infinite;
 
-    position:absolute;
+    position:fixed;
     top:40vh;
     left:60vw;
     z-index: 10;
