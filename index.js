@@ -2,7 +2,8 @@ let mainPageDiv = document.querySelector("#main-page-div");
 let smokeDiv = document.querySelector("#smoke");
 let canvasDiv = document.querySelector("#canvas-div");
 let arrowContainer = document.querySelector(".arrow-container");
-let progressElement = document.querySelector("#progress-element");
+// let progressElement = document.querySelector("#progress-element");
+let loader = document.querySelector(".loader");
 
 
 var pi = Math.PI;
@@ -421,7 +422,8 @@ function loadGLTFOcta(GLTFName) {
 
 		// console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
-        loaded = xhr.loaded/25353554;
+        loaded = xhr.loaded/25353554; // change the denominator to total xhr if changing the gltf model
+
 
 
 
@@ -431,11 +433,18 @@ function loadGLTFOcta(GLTFName) {
     
 }
 
-function progress() {
-    progressElement.style.width = `${loaded*200}px`;
-    console.log(loaded)
+if(loaded>1) {
+    loader.style.opacity = "1";
 
+} else {
+    loader.style.opacity = "0";
 }
+
+// function progress() {
+//     progressElement.style.width = `${loaded*200}px`;
+//     console.log(loaded)
+
+// }
 
 
 function init() {
@@ -446,7 +455,7 @@ function init() {
     loadedGLTF.position.y = -5.1;
 }
 
-loadGLTFOcta("full 3d baked.gltf");
+loadGLTFOcta("assets/full 3d baked.gltf");
 
 
 // //load sec gltf
@@ -1102,7 +1111,7 @@ function render() {
 
     rotate();
     rotateClouds();
-    progress();
+    // progress();
 
     renderer.render(scene, camera);
 
