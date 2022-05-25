@@ -424,8 +424,7 @@ function loadGLTFOcta(GLTFName) {
 
         loaded = xhr.loaded/25353554; // change the denominator to total xhr if changing the gltf model
 
-
-
+        // console.log(loaded)
 
 	}, undefined, function(error) {
         console.log(error);
@@ -433,12 +432,16 @@ function loadGLTFOcta(GLTFName) {
     
 }
 
-if(loaded>1) {
-    loader.style.opacity = "1";
-
-} else {
-    loader.style.opacity = "0";
+function removeLoading() {
+    if(loaded < 1) {
+        loader.style.opacity = "1";
+    
+    } else {
+        loader.style.opacity = "0";
+    }
 }
+
+
 
 // function progress() {
 //     progressElement.style.width = `${loaded*200}px`;
@@ -1112,6 +1115,8 @@ function render() {
     rotate();
     rotateClouds();
     // progress();
+
+    removeLoading();
 
     renderer.render(scene, camera);
 
