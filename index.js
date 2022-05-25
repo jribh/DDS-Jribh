@@ -421,7 +421,7 @@ function loadGLTFOcta(GLTFName) {
 
 		// console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
-        loaded = xhr.loaded/xhr.total;
+        loaded = xhr.loaded/25353554;
 
 
 
