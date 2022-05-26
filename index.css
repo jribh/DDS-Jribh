@@ -64,8 +64,16 @@ body {
   #main-page-div h1 span {
     font-weight: 700;
     color:#22223b;
-
   }
+
+  #main-page-div h1 #khand {
+    font-weight: 500;
+    font-size: 5vw;
+    font-family: 'Khand', sans-serif;
+    color:#545473fd;
+  }
+
+
   
   #main-page-div h2 {
     font-family: 'Lato';
