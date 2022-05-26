@@ -316,6 +316,10 @@ body {
       font-size: 6vw;
     }
 
+    #main-page-div h1 #khand {
+      font-size: 6.6vw;
+    }
+
     #main-page-div h3 {
       font-size: 1.7vw;
     }
@@ -362,6 +366,10 @@ body {
   
     #main-page-div h1 {
       font-size: 10vw;
+    }
+
+    #main-page-div h1 #khand {
+      font-size: 11vw;
     }
   
     #main-page-div h3 {
