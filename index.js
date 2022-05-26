@@ -457,7 +457,13 @@ if(!mPhone.matches) {
     ground.position.z = 3.8;
     ground.position.y = 0.5;
     
+    ground.scale.x = 0;
+    ground.scale.y = 0;
+    ground.scale.z = 0;
+
+    
     scene.add(ground);
+
 }
 
 
@@ -547,7 +553,7 @@ function init() {
         loadedGLTF.scale.y = 0.7;
         loadedGLTF.scale.z = 0.7;
     
-        loadedGLTF.position.y = -4;
+        loadedGLTF.position.y = -4.6;
         loadedGLTF.position.z = 3.8;
     }
 
