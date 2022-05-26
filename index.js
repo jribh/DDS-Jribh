@@ -15,6 +15,9 @@ let bdesDiv = document.querySelector("#bdes-div");
 let lastPage = document.querySelector("#last-page")
 
 
+// media queries
+
+let mPhone = window.matchMedia("(max-width: 420px)"); 
 
 var pi = Math.PI;
 
@@ -48,7 +51,11 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 document.body.appendChild(renderer.domElement);
 
 //camera
-camera.position.set(32, 1, 0);
+// camera.position.set(32, 1, 0);
+
+camera.position.set( 32 - 9 * 50/(window.innerHeight), 1 + 50/(window.innerHeight*2), 0);
+
+
 camera.lookAt(new THREE.Vector3(0, 0, 4));
 
 // auto rotate
@@ -354,41 +361,104 @@ const geoCloud = new THREE.SphereGeometry(2, 6, 6);
     scene.add(cloudGroup)
 
 
+    if(!mPhone.matches) {
+
+       cloudGroup.position.x = 0;
+       cloudGroup.position.y = 0;
+       cloudGroup.position.z = 0;
+        
+    } else { // in case of phone
+    
+        cloudGroup.position.x = 0;
+        cloudGroup.position.y = 1.1;
+        cloudGroup.position.z = 3.8;
+
+        cloudGroup.scale.x = 0.5;
+        cloudGroup.scale.y = 0.5;
+        cloudGroup.scale.z = 0.5;
+ 
+    }
+
+
+
 //-------------------------------------ground-------------------------------------
 
 
-var layers = [];
-var ground = new THREE.Group();
-for (var i = 0; i < 5; i++) {
-  var h = 0.1;
-  var geometry = new THREE.CylinderGeometry(8 - i - 0.01, 8 - i, h, 9);
-  layers.push(new THREE.Mesh(geometry, mat_grey));
-  layers[i].position.y = -6.5 + h * i;
-  layers[i].receiveShadow = true;
-  ground.add(layers[i]);
+
+
+if(!mPhone.matches) {
+
+    var layers = [];
+    var ground = new THREE.Group();
+    for (var i = 0; i < 5; i++) {
+      var h = 0.1;
+      var geometry = new THREE.CylinderGeometry(8 - i - 0.01, 8 - i, h, 9);
+      layers.push(new THREE.Mesh(geometry, mat_grey));
+      layers[i].position.y = -6.5 + h * i;
+      layers[i].receiveShadow = true;
+      ground.add(layers[i]);
+    }
+    let factor = 0.8;
+    
+    layers[0].scale.x = 0.8*factor;
+    layers[0].scale.z = 0.9*factor;
+    layers[1].scale.set(0.77*factor, 1, 0.91*factor);
+    layers[1].rotation.y = ((2 * pi) / 9) * 0.6;
+    layers[2].scale.set(0.8*factor, 1, 0.91*factor);
+    layers[2].rotation.y = ((2 * pi) / 9) * 0.3;
+    layers[3].scale.set(0.75*factor, 1, 0.92*factor);
+    layers[3].rotation.y = ((2 * pi) / 9) * 0.7;
+    layers[4].scale.set(0.7*factor, 1, 0.93*factor);
+    layers[4].rotation.y = ((2 * pi) / 9) * 0.9;
+    
+    var geo_base = new THREE.CylinderGeometry(8, 1, 7, 9);
+    var base = new THREE.Mesh(geo_base, mat_grey);
+    base.scale.x = layers[0].scale.x;
+    base.scale.z = layers[0].scale.z;
+    
+    base.position.y = -10;
+    ground.add(base);
+    
+    scene.add(ground);
+    
+} else { // in case of phone
+
+    var layers = [];
+    var ground = new THREE.Group();
+    for (var i = 0; i < 5; i++) {
+      var h = 0.1;
+      var geometry = new THREE.CylinderGeometry(8 - i - 0.01, 8 - i, h, 9);
+      layers.push(new THREE.Mesh(geometry, mat_grey));
+      layers[i].position.y = -6.5 + h * i;
+      layers[i].receiveShadow = true;
+      ground.add(layers[i]);
+    }
+    let factor = 0.45;
+    
+    layers[0].scale.x = 0.8*factor;
+    layers[0].scale.z = 0.9*factor;
+    layers[1].scale.set(0.77*factor, 1, 0.91*factor);
+    layers[1].rotation.y = ((2 * pi) / 9) * 0.6;
+    layers[2].scale.set(0.8*factor, 1, 0.91*factor);
+    layers[2].rotation.y = ((2 * pi) / 9) * 0.3;
+    layers[3].scale.set(0.75*factor, 1, 0.92*factor);
+    layers[3].rotation.y = ((2 * pi) / 9) * 0.7;
+    layers[4].scale.set(0.7*factor, 1, 0.93*factor);
+    layers[4].rotation.y = ((2 * pi) / 9) * 0.9;
+    
+    var geo_base = new THREE.CylinderGeometry(8, 1, 7, 9);
+    var base = new THREE.Mesh(geo_base, mat_grey);
+    base.scale.x = layers[0].scale.x;
+    base.scale.z = layers[0].scale.z;
+    
+    base.position.y = -10;
+    ground.add(base);
+
+    ground.position.z = 3.8;
+    ground.position.y = 0.5;
+    
+    scene.add(ground);
 }
-let factor = 0.8;
-
-layers[0].scale.x = 0.8*factor;
-layers[0].scale.z = 0.9*factor;
-layers[1].scale.set(0.77*factor, 1, 0.91*factor);
-layers[1].rotation.y = ((2 * pi) / 9) * 0.6;
-layers[2].scale.set(0.8*factor, 1, 0.91*factor);
-layers[2].rotation.y = ((2 * pi) / 9) * 0.3;
-layers[3].scale.set(0.75*factor, 1, 0.92*factor);
-layers[3].rotation.y = ((2 * pi) / 9) * 0.7;
-layers[4].scale.set(0.7*factor, 1, 0.93*factor);
-layers[4].rotation.y = ((2 * pi) / 9) * 0.9;
-
-var geo_base = new THREE.CylinderGeometry(8, 1, 7, 9);
-var base = new THREE.Mesh(geo_base, mat_grey);
-base.scale.x = layers[0].scale.x;
-base.scale.z = layers[0].scale.z;
-
-base.position.y = -10;
-ground.add(base);
-
-scene.add(ground);
 
 
 
@@ -464,11 +534,23 @@ function removeLoading() {
 
 
 function init() {
-    loadedGLTF.scale.x = 1.4;
-    loadedGLTF.scale.y = 1.4;
-    loadedGLTF.scale.z = 1.4;
 
-    loadedGLTF.position.y = -5.1;
+    if(!mPhone.matches) {
+        loadedGLTF.scale.x = 1.4;
+        loadedGLTF.scale.y = 1.4;
+        loadedGLTF.scale.z = 1.4;
+
+        loadedGLTF.position.y = -5.1;
+
+    } else {
+        loadedGLTF.scale.x = 0.7;
+        loadedGLTF.scale.y = 0.7;
+        loadedGLTF.scale.z = 0.7;
+    
+        loadedGLTF.position.y = -4;
+        loadedGLTF.position.z = 3.8;
+    }
+
 }
 
 loadGLTFOcta("full 3d baked.gltf");
@@ -934,7 +1016,7 @@ document.body.addEventListener('mousemove', (e)=> {
  
         
         if(!abort) {
-            GLTFOcta.rotation.y = ((e.clientY*2+e.clientX/2)/2)*1.3/(window.innerHeight);
+            GLTFOcta.rotation.y = ((e.clientY+e.clientX*1.2)/2)*1.3/(window.innerHeight);
             // GLTFOcta.rotation.x = -e.clientX*0.03/(window.innerHeight) + 0.03;
         }
 
@@ -966,7 +1048,10 @@ $(renderer.domElement).on('mousedown', function(e) {
     };
 
     if(!cameraAbort) {
-        camera.position.set(32 + e.clientY/8000, 0.5 + e.clientX/16000, e.clientY/8000);
+        camera.position.set(32 - 9 * 50/(window.innerHeight) + e.clientY/8000, 1 + 50/(window.innerHeight*2) + e.clientX/16000, e.clientY/8000);
+
+        // camera.position.set( 32 - 9 * 50/(window.innerHeight), 1 + 50/(window.innerHeight*2), 0);
+
     }
 
 
@@ -974,7 +1059,7 @@ $(renderer.domElement).on('mousedown', function(e) {
 
         // GLTFOcta.rotation.x = 0;
 
-        abort=true;
+        abort = true;
 
         var deltaRotationQuaternion = new THREE.Quaternion()
             .setFromEuler(new THREE.Euler(
@@ -985,6 +1070,7 @@ $(renderer.domElement).on('mousedown', function(e) {
             ));
         
         GLTFOcta.quaternion.multiplyQuaternions(deltaRotationQuaternion, GLTFOcta.quaternion);
+
     }
     
     previousMousePosition = {
@@ -1020,39 +1106,7 @@ function rotate() {
     GLTFOcta.rotation.y -= SPEED * 1.1;
     ground.rotation.y -= SPEED / 8;
 
-
-    // GLTFBoxes.rotation.y -= SPEED;
-    // GLTFSideWall.rotation.y -= SPEED;
-    // GLTFLaptop.rotation.y -= SPEED;
-    // GLTFAlmirah.rotation.y -= SPEED;
-    // GLTFCeiling.rotation.y -= SPEED;
-    // GLTFChandel.rotation.y -= SPEED;
-    // GLTFSofa.rotation.y -= SPEED;
-    // GLTFStool.rotation.y -= SPEED;
-    // GLTFCenterTable.rotation.y -= SPEED;
-    // GLTFSideTable.rotation.y -= SPEED;
-
-    // lightPoint1.rotation.y -= SPEED;
-    // lightPoint2.rotation.y -= SPEED;
-    // lightPoint3.rotation.y -= SPEED;
-    // lightPoint4.rotation.y -= SPEED;
-    // lightPoint5.rotation.y -= SPEED;
-    // lightPoint6.rotation.y -= SPEED;
-
 }
-
-// theCanvas.addEventListener('wheel', (e)=> {
- 
-//     if(e.deltaY > 25) { // change this to increase scrolling required
-
-//         SPEED = -0.0015;
-        
-//         mainPageDiv.style.opacity = '0';
-//         mainPageDiv.style.transition = 'opacity 0.5s';
-
-//     } 
-// })
-
 
 window.addEventListener('scroll', () => {
    // console.log(window.scrollY)
@@ -1060,6 +1114,7 @@ window.addEventListener('scroll', () => {
     if(window.scrollY>20) {
 
         SPEED = -0.0015;
+        abort = true;
         
         mainPageDiv.style.opacity = '0';
         mainPageDiv.style.transition = 'opacity 0.5s';
@@ -1091,7 +1146,10 @@ window.addEventListener('scroll', () => {
 
         SPEED = 0;
 
-        camera.position.set( 32 - 9 * window.scrollY/(window.innerHeight), 1 + window.scrollY/(window.innerHeight*2), 0)
+
+        // camera.position.set(32, 1, 0);
+
+        camera.position.set( 32 - 9 * window.scrollY/(window.innerHeight), 1 + window.scrollY/(window.innerHeight*2), 0); // set this to determine camera position when viewing departments
 
         GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
 
@@ -1186,18 +1244,18 @@ window.addEventListener('scroll', () => {
 
     if(window.scrollY > window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) { // change the values to change where div fades
 
-        // camera.position.set(23, 1.5, 0);
+    // camera.position.set(23, 1.5, 0);
 
-        camera.position.set(23 + 60 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1), 1.5, 10 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1));
+    camera.position.set(23 + 60 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1), 1.5, 10 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1));
 
-        abort=false;
-        SPEED = -0.004;
+    // abort=false;
+    SPEED = -0.004;
 
     } 
 
     // set model rotation for branches here
 
-    if(window.scrollY > window.innerHeight && window.scrollY <= window.innerHeight * (initialAnimation/100 + 5 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) {
+    if(window.scrollY > window.innerHeight && window.scrollY <= window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) {
 
         SPEED = 0;
         GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
