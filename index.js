@@ -34,7 +34,7 @@ let mPhone = window.matchMedia("(max-width: 420px)");
 
 
 
-if(!mPhone.matches || !("ontouchstart" in document.documentElement)) { // for desktops
+if(!mPhone.matches && !("ontouchstart" in document.documentElement)) { // for desktops
     var pi = Math.PI;
 
     var scene = new THREE.Scene();
@@ -87,7 +87,7 @@ if(!mPhone.matches || !("ontouchstart" in document.documentElement)) { // for de
     controls.target.copy(new THREE.Vector3(0, 0.3, 0)); 
     controls.enableZoom = false;
     controls.enablePan = false;
-    
+
     controls.minPolarAngle = Math.PI/2.25; // radians
     controls.maxPolarAngle = Math.PI/1.9; // radians
     
