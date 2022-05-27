@@ -5,6 +5,8 @@ let arrowContainer = document.querySelector(".arrow-container");
 // let progressElement = document.querySelector("#progress-element");
 let loader = document.querySelector(".loader");
 
+canvasDiv.style.overflow = "hidden";
+
 let animationDiv = document.querySelector("#animation-div");
 let communicationDiv = document.querySelector("#communication-div");
 let industrialDiv = document.querySelector("#industrial-div");
@@ -13,6 +15,9 @@ let mobilityDiv = document.querySelector("#mobility-div");
 let bdesDiv = document.querySelector("#bdes-div");
 
 let lastPage = document.querySelector("#last-page")
+
+let originalQuaternion, newQuaternion;
+
 
 
 // media queries
@@ -45,6 +50,8 @@ renderer.setSize(w * dpi/2, h * dpi/2);
 const theCanvas = document.getElementById("artboard");
 theCanvas.style.width = `${w}px`;
 theCanvas.style.height = `${h}px`;
+
+theCanvas.style.overflow = "hidden";
 
 renderer.shadowMapEnabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -553,9 +560,12 @@ function init() {
         loadedGLTF.scale.y = 0.7;
         loadedGLTF.scale.z = 0.7;
     
-        loadedGLTF.position.y = -4.6;
+        loadedGLTF.position.y = -5.2;
         loadedGLTF.position.z = 3.8;
     }
+
+    originalQuaternion = GLTFOcta.quaternion;
+
 
 }
 
@@ -1034,8 +1044,9 @@ theCanvas.addEventListener('drag', (e) => {
 console.log(e.clientX)
 })
 
+// rotate with mouse event
 
- // rotate with mouse event
+var changeDir = false;
 
 
 var isDragging = false;
@@ -1053,19 +1064,22 @@ $(renderer.domElement).on('mousedown', function(e) {
         y: e.clientY-previousMousePosition.y
     };
 
+    // if deltaMoveX >0.004, deltaMoveX = 0.004
+
     if(!cameraAbort) {
-        camera.position.set(32 - 9 * 50/(window.innerHeight) + e.clientY/8000, 1 + 50/(window.innerHeight*2) + e.clientX/16000, e.clientY/8000);
+        camera.position.set(32 - 9 * 50/(window.innerHeight) + e.clientY/8000, 1 + 50/(window.innerHeight*2) + e.clientX/16000, e.clientY/8000); // set this for moving background around
 
         // camera.position.set( 32 - 9 * 50/(window.innerHeight), 1 + 50/(window.innerHeight*2), 0);
-
     }
-
 
     if(isDragging) {
 
         // GLTFOcta.rotation.x = 0;
 
         abort = true;
+        SPEED = 0;
+
+
 
         var deltaRotationQuaternion = new THREE.Quaternion()
             .setFromEuler(new THREE.Euler(
@@ -1074,8 +1088,20 @@ $(renderer.domElement).on('mousedown', function(e) {
                 0,
                 'XYZ'
             ));
+
+            cameraAbort = true;
+
+            console.log(toRadians(deltaMove.x * 0.2)) // this is positive or negative based on direction of rotation
         
         GLTFOcta.quaternion.multiplyQuaternions(deltaRotationQuaternion, GLTFOcta.quaternion);
+
+        // console.log(GLTFOcta.quaternion.y); // they increase clockwise
+
+        // if(GLTFOcta.quaternion.y < originalQuaternion) { // figure this out
+        //     changeDir = true; 
+        // } else {
+        //     changeDir = false;
+        // }
 
     }
     
@@ -1084,11 +1110,21 @@ $(renderer.domElement).on('mousedown', function(e) {
         y: e.offsetY
     };
 });
-/* */
 
 $(document).on('mouseup', function(e) {
     isDragging = false;
     // abort=false;
+    // cameraAbort = false;
+    if(window.scrollY < 50) {
+        SPEED = -0.004;
+    }
+
+
+    // GLTFOcta.quaternion = originalQuaternion;
+
+    // if(GLTFOcta.rotation.y<0) {
+    //     GLTFOcta.rotation.y = -GLTFOcta.rotation.y;
+    // }
 });
 
 function toRadians(angle) {
@@ -1098,6 +1134,8 @@ function toRadians(angle) {
 function toDegrees(angle) {
 	return angle * (180 / Math.PI);
 }
+
+
 
 
 //------end rotate mouse event------------
@@ -1110,7 +1148,7 @@ function rotateClouds() {
 function rotate() {
 
     GLTFOcta.rotation.y -= SPEED * 1.1;
-    ground.rotation.y -= SPEED / 8;
+    ground.rotation.y -= SPEED / 6; 
 
 }
 
@@ -1155,22 +1193,39 @@ window.addEventListener('scroll', () => {
 
         // camera.position.set(32, 1, 0);
 
-        camera.position.set( 32 - 9 * window.scrollY/(window.innerHeight), 1 + window.scrollY/(window.innerHeight*2), 0); // set this to determine camera position when viewing departments
+        if(!mPhone.matches) {
+            camera.position.set( 32 - 9 * window.scrollY/(window.innerHeight), 1 + window.scrollY/(window.innerHeight*2), 0); // set this to determine camera position when viewing departments
+        } else {
+            camera.position.set( 32 - 9 * window.scrollY/(window.innerHeight), 1 + window.scrollY/(window.innerHeight*1.6), 0); // set this to determine camera position when viewing departments
+        }
 
-        GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
-
-
+        if(changeDir) {
+            GLTFOcta.rotation.y = -window.scrollY/(window.innerHeight)*1.25;
+        } else {
+            GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
+        }
+        
     }
-
-
 
 
 
     // department divs appearing and fading
 
-    let initialAnimation = 120; //these are in vh
-    let differenceWithinDiv = 45;
-    let differenceAfterDiv = 35;
+    let initialAnimation, 
+        differenceWithinDiv,
+        differenceAfterDiv;
+
+    if(!mPhone.matches) {
+
+        initialAnimation = 120; //these are in vh
+        differenceWithinDiv = 45; // sum should be 80
+        differenceAfterDiv = 35;
+
+    } else {
+        initialAnimation = 120; //these are in vh
+        differenceWithinDiv = 65; // sum should be 80
+        differenceAfterDiv = 15;
+    }
 
     //animation
 
@@ -1252,7 +1307,12 @@ window.addEventListener('scroll', () => {
 
     // camera.position.set(23, 1.5, 0);
 
-    camera.position.set(23 + 60 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1), 1.5, 10 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1));
+    if(!mPhone.matches) {
+        camera.position.set(23 + 60 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1), 1.5, 10 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1)); // set this to determine camera position when viewing departments
+    } else {
+        camera.position.set(23 + 60 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1), 1.5 + 8 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1), 10 * (window.scrollY / (window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) - 1));
+    }
+
 
     // abort=false;
     SPEED = -0.004;
@@ -1264,7 +1324,14 @@ window.addEventListener('scroll', () => {
     if(window.scrollY > window.innerHeight && window.scrollY <= window.innerHeight * (initialAnimation/100 + 6 * differenceWithinDiv/100 + 5 * differenceAfterDiv/100)) {
 
         SPEED = 0;
-        GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
+
+        
+
+        if(changeDir) {
+            GLTFOcta.rotation.y = -window.scrollY/(window.innerHeight)*1.25;
+        } else {
+            GLTFOcta.rotation.y = window.scrollY/(window.innerHeight)*1.25;
+        }
     
         abort=true;
             

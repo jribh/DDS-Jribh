@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    /* overflow: hidden; */
+    overflow-x: hidden !important;
     overflow: auto;
     /* background: #e6e7ed; */
     background: #e6e7ed;
@@ -363,7 +363,7 @@ body {
     #main-page-div {
       left:14vw;
       top:7vh;
-      width:90vw;
+      width:60vw;
     }
   
     #main-page-div h1 {
@@ -383,7 +383,7 @@ body {
 
     #last-page {
 
-      height:90vh;
+      height:80vh;
  
       padding:14vh 0 0 14vw;
       margin-top:100px 0 0 0;
@@ -396,7 +396,7 @@ body {
 
 
     .loader {
-      left:45vw;
+      left:40vw;
       top:55vh;
     }
 
