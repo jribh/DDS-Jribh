@@ -20,9 +20,11 @@ let originalQuaternion, newQuaternion;
 
 let mPhone = window.matchMedia("(max-width: 420px)");
 
+let isTouch = window.matchMedia("(pointer: coarse)");
 
 
 
+
 // -----------------------------------------------------------------------------------for laptop----------------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------for laptop----------------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------for laptop----------------------------------------------------------------------------------------------------------------
@@ -34,7 +36,7 @@ let mPhone = window.matchMedia("(max-width: 420px)");
 
 
 
-if(!mPhone.matches && !("ontouchstart" in document.documentElement)) { // for desktops
+if(!mPhone.matches && !isTouch.match) { // for desktops
     var pi = Math.PI;
 
     var scene = new THREE.Scene();
