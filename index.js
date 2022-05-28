@@ -872,7 +872,6 @@ if(!mPhone.matches) { // for desktops
 
 
 else { // for phones
-    let mPhone = window.matchMedia("(max-width: 420px)"); 
 
     var pi = Math.PI;
     
