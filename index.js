@@ -18,9 +18,9 @@ let lastPage = document.querySelector("#last-page")
 
 let originalQuaternion, newQuaternion;
 
-let mPhone = window.matchMedia("(max-width: 420px)");
+let mPhone = window.matchMedia("(max-width: 1200px)");
 
-let isTouch = window.matchMedia("(pointer: coarse)");
+// let isTouch = window.matchMedia("(pointer: coarse)");
 
 
 
@@ -36,7 +36,7 @@ let isTouch = window.matchMedia("(pointer: coarse)");
 
 
 
-if(!mPhone.matches && !isTouch.match) { // for desktops
+if(!mPhone.matches) { // for desktops
     var pi = Math.PI;
 
     var scene = new THREE.Scene();
