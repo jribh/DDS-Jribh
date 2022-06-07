@@ -22,6 +22,8 @@ let mPhone = window.matchMedia("(max-width: 1200px)");
 
 // let isTouch = window.matchMedia("(pointer: coarse)");
 
+let SPEED = -0.004;
+
 
 
 
@@ -601,7 +603,6 @@ if(!mPhone.matches) { // for desktops
     abort = false;
     cameraAbort = false;
     
-    let SPEED = -0.004;
     
     document.body.addEventListener('mousemove', (e)=> {
      
@@ -871,7 +872,7 @@ if(!mPhone.matches) { // for desktops
 
 
 
-else { // for phones
+else if (mPhone.matches) { // for phones
 
     var pi = Math.PI;
     
@@ -1416,13 +1417,10 @@ else { // for phones
     /// rotating
     cloudGroup.rotation.y -= 4.3;
     cloudGroup.position.y = -2.5;
-    
-    let octaRY, octaRX, abort;
-    
+        
     abort = false;
     cameraAbort = false;
     
-    let SPEED = -0.004;
     
     theCanvas.style.position = "fixed";
     
@@ -1453,10 +1451,8 @@ else { // for phones
     }
     
     function rotate() {
-    
         GLTFOcta.rotation.y -= SPEED * 1.1;
         ground.rotation.y -= SPEED / 6; 
-    
     }
     
     window.addEventListener('scroll', () => {
