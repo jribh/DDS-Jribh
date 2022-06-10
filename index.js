@@ -63,8 +63,18 @@ if(window.innerWidth < 1200) {
       antialias: true
     });
     
+    let dpiDivide;
+
+    if(window.innerWidth < 2000) {
+        dpiDivide = 1;
+    } else {
+        dpiDivide = 2;
+    }
+
+    console.log(dpiDivide);
+
     const dpi = window.devicePixelRatio;
-    renderer.setSize(w * dpi/2, h * dpi/2);
+    renderer.setSize(w * dpi/dpiDivide, h * dpi/dpiDivide);
     const theCanvas = document.getElementById("artboard");
     theCanvas.style.width = `${w}px`;
     theCanvas.style.height = `${h}px`;
@@ -544,8 +554,10 @@ if(window.innerWidth < 1200) {
         }, function(xhr) {
     
             // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+            console.log(xhr.total)
     
-            loaded = xhr.loaded/25353554; // change the denominator to total xhr if changing the gltf model
+            loaded = xhr.loaded/14794924; // change the denominator to total xhr if changing the gltf model
     
             // console.log(loaded)
     
@@ -570,16 +582,16 @@ if(window.innerWidth < 1200) {
     function init() {
     
         if(!mPhone.matches) {
-            loadedGLTF.scale.x = 1.4;
-            loadedGLTF.scale.y = 1.4;
-            loadedGLTF.scale.z = 1.4;
+            loadedGLTF.scale.x = 2.8;
+            loadedGLTF.scale.y = 2.8;
+            loadedGLTF.scale.z = 2.8;
     
             loadedGLTF.position.y = -5.1;
     
         } else {
-            loadedGLTF.scale.x = 0.7;
-            loadedGLTF.scale.y = 0.7;
-            loadedGLTF.scale.z = 0.7;
+            loadedGLTF.scale.x = 1.4;
+            loadedGLTF.scale.y = 1.4;
+            loadedGLTF.scale.z = 1.4;
         
             loadedGLTF.position.y = -5.2;
             loadedGLTF.position.z = 0;
@@ -592,7 +604,7 @@ if(window.innerWidth < 1200) {
     
     }
     
-    loadGLTFOcta("full 3d baked.gltf");
+    loadGLTFOcta("test.gltf");
     
     
     // ------------------------------------modify model-----------------------------------------
